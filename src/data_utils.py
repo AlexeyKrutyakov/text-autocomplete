@@ -3,6 +3,7 @@ import html
 from transformers import AutoTokenizer
 import json
 import random
+import torch
 
 def load_texts(filepath: str) -> list[str]:
   with open(filepath, 'r', encoding='utf-8') as f:
@@ -127,3 +128,26 @@ def train_val_test_split(
   test = data_shuffled[val_end:]
 
   return train, val, test
+
+def prepare_tensors(
+    tokenized: list[list[int]],
+    max_length: int = 40,
+    pad_token_id: int = 0
+) -> tuple[torch.Tensor, torch.Tensor]:
+  seq_len = max_length - 1
+  n = len(tokenized)
+
+  x = torch.full((n, seq_len), pad_token_id, dtype=torch.long)
+  y = torch.full((n, seq_len), pad_token_id, dtype=torch.long)
+
+  for i, tokens in enumerate(tokenized):
+    if len(tokens) > max_length:
+      tokens = tokens[:max_length]
+
+    x_seq = tokens[:-1]
+    y_seq = tokens[1:]
+
+    x[i, :len(x_seq)] = torch.tensor(x_seq, dtype=torch.long)
+    y[i, :len(y_seq)] = torch.tensor(y_seq, dtype=torch.long)
+
+  return x, y

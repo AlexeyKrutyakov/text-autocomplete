@@ -70,6 +70,6 @@ def train_lstm(
     history['rougeL'].append(rouge_results['rougeL'])
 
     print(f'Epoch {epoch + 1}/{num_epochs} | Train loss: {total_loss:.4f} | Val loss: {val_loss:.4f}')
-    print(f'ROUGE-1: {rouge_results['rouge1']:.4f} | ROUGE-2: {rouge_results['rouge2']:.4f} | ROUGE-L: {rouge_results['rougeL']:.4f}')
+    print(f'ROUGE-1: {rouge_results["rouge1"]:.4f} | ROUGE-2: {rouge_results["rouge2"]:.4f} | ROUGE-L: {rouge_results["rougeL"]:.4f}')
 
   return history

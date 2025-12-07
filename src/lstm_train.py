@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from eval_lstm import evaluate_lstm
+from src.eval_lstm import evaluate_lstm
 
 def train_lstm(
     model: nn.Module,
